@@ -4168,7 +4168,19 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n// Global app controller\n\n\n\nasync function getResults(query) {\n    try {\n        const res = await axios__WEBPACK_IMPORTED_MODULE_0___default()(`https://forkify-api.herokuapp.com/api/search?&q=${query}`);\n        const recipes = res.data.recipes;\n        console.log(recipes);\n    } catch (error) {\n        alert(error);\n    }\n}\ngetResults('pizza');\n\n//# sourceURL=webpack:///./src/js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _models_Search__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models/Search */ \"./src/js/models/Search.js\");\n// Global app controller\n\n\n/** Global state of the app\n * - Search object\n * - Current recipe object\n * - Shopping list object \n * - Liked recipes \n*/\nconst state = {};\n\nconst controlSearch = async () => {\n    // 1) Get query from view\n    const query = 'pizza'; //TODO\n\n    if (query) {\n        // 2) New search object and add to state\n        state.search = new _models_Search__WEBPACK_IMPORTED_MODULE_0__[\"default\"](query);\n\n        // 3) Prepare UI for results \n\n        // 4) Search for recipes\n        await state.search.getResults();\n\n        // 5) Render results on UI\n        console.log(state.search.result);\n    }\n};\n\ndocument.querySelector('.search').addEventListener('submit', e => {\n    e.preventDefault();\n    controlSearch();\n});\n\n//# sourceURL=webpack:///./src/js/index.js?");
+
+/***/ }),
+
+/***/ "./src/js/models/Search.js":
+/*!*********************************!*\
+  !*** ./src/js/models/Search.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Search; });\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n\n\nclass Search {\n    constructor(query) {\n        this.query = query;\n    }\n\n    async getResults() {\n        try {\n            const res = await axios__WEBPACK_IMPORTED_MODULE_0___default()(`https://forkify-api.herokuapp.com/api/search?&q=${this.query}`);\n            this.result = res.data.recipes;\n            //console.log(this.result);\n        } catch (error) {\n            alert(error);\n        }\n    }\n\n}\n\n//# sourceURL=webpack:///./src/js/models/Search.js?");
 
 /***/ }),
 
