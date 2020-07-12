@@ -4168,7 +4168,7 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _models_Search__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models/Search */ \"./src/js/models/Search.js\");\n// Global app controller\n\n\n/** Global state of the app\n * - Search object\n * - Current recipe object\n * - Shopping list object \n * - Liked recipes \n*/\nconst state = {};\n\nconst controlSearch = async () => {\n    // 1) Get query from view\n    const query = 'pizza'; //TODO\n\n    if (query) {\n        // 2) New search object and add to state\n        state.search = new _models_Search__WEBPACK_IMPORTED_MODULE_0__[\"default\"](query);\n\n        // 3) Prepare UI for results \n\n        // 4) Search for recipes\n        await state.search.getResults();\n\n        // 5) Render results on UI\n        console.log(state.search.result);\n    }\n};\n\ndocument.querySelector('.search').addEventListener('submit', e => {\n    e.preventDefault();\n    controlSearch();\n});\n\n//# sourceURL=webpack:///./src/js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _models_Search__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models/Search */ \"./src/js/models/Search.js\");\n/* harmony import */ var _views_searchView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/searchView */ \"./src/js/views/searchView.js\");\n/* harmony import */ var _views_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/base */ \"./src/js/views/base.js\");\n// Global app controller\n\n\n\n\n/** Global state of the app\n * - Search object\n * - Current recipe object\n * - Shopping list object \n * - Liked recipes \n*/\nconst state = {};\n\nconst controlSearch = async () => {\n    // 1) Get query from view\n    const query = _views_searchView__WEBPACK_IMPORTED_MODULE_1__[\"getInput\"]();\n    //console.log(query);\n    if (query) {\n        // 2) New search object and add to state\n        state.search = new _models_Search__WEBPACK_IMPORTED_MODULE_0__[\"default\"](query);\n\n        // 3) Prepare UI for results \n        _views_searchView__WEBPACK_IMPORTED_MODULE_1__[\"clearInput\"]();\n        _views_searchView__WEBPACK_IMPORTED_MODULE_1__[\"clearResults\"]();\n        // 4) Search for recipes\n        await state.search.getResults();\n\n        // 5) Render results on UI\n        _views_searchView__WEBPACK_IMPORTED_MODULE_1__[\"renderResults\"](state.search.result);\n    }\n};\n\n_views_base__WEBPACK_IMPORTED_MODULE_2__[\"elements\"].searchForm.addEventListener('submit', e => {\n    e.preventDefault();\n    controlSearch();\n});\n\n//# sourceURL=webpack:///./src/js/index.js?");
 
 /***/ }),
 
@@ -4181,6 +4181,30 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _mod
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Search; });\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n\n\nclass Search {\n    constructor(query) {\n        this.query = query;\n    }\n\n    async getResults() {\n        try {\n            const res = await axios__WEBPACK_IMPORTED_MODULE_0___default()(`https://forkify-api.herokuapp.com/api/search?&q=${this.query}`);\n            this.result = res.data.recipes;\n            //console.log(this.result);\n        } catch (error) {\n            alert(error);\n        }\n    }\n\n}\n\n//# sourceURL=webpack:///./src/js/models/Search.js?");
+
+/***/ }),
+
+/***/ "./src/js/views/base.js":
+/*!******************************!*\
+  !*** ./src/js/views/base.js ***!
+  \******************************/
+/*! exports provided: elements */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"elements\", function() { return elements; });\nconst elements = {\n    searchForm: document.querySelector('.search'),\n    searchInput: document.querySelector('.search__field'),\n    searchResList: document.querySelector('.results__list')\n};\n\n//# sourceURL=webpack:///./src/js/views/base.js?");
+
+/***/ }),
+
+/***/ "./src/js/views/searchView.js":
+/*!************************************!*\
+  !*** ./src/js/views/searchView.js ***!
+  \************************************/
+/*! exports provided: getInput, clearInput, clearResults, renderResults */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getInput\", function() { return getInput; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"clearInput\", function() { return clearInput; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"clearResults\", function() { return clearResults; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"renderResults\", function() { return renderResults; });\n/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base */ \"./src/js/views/base.js\");\n\nconst getInput = () => _base__WEBPACK_IMPORTED_MODULE_0__[\"elements\"].searchInput.value;\n\nconst clearInput = () => {\n    _base__WEBPACK_IMPORTED_MODULE_0__[\"elements\"].searchInput.value = '';\n};\n\nconst clearResults = () => {\n    _base__WEBPACK_IMPORTED_MODULE_0__[\"elements\"].searchResList.innerHTML = '';\n};\n\nconst renderRecipe = recipe => {\n    const markup = `\n    <li>\n        <a class = \"results__link\" href = \"#${recipe.recipe_id}\">\n            <figure class = \"results__fig\" >\n                <img src = \"${recipe.image_url}\" alt = \"${recipe.title}\">\n            </figure> \n            <div class = \"results__data\">\n                <h4 class = \"results__name\"> ${recipe.title}</h4> \n                <p class = \"results__author\"> ${recipe.publisher} </p> \n            </div> \n        </a> \n    </li>\n    `;\n    _base__WEBPACK_IMPORTED_MODULE_0__[\"elements\"].searchResList.insertAdjacentHTML('beforeend', markup);\n};\n\nconst renderResults = recipes => {\n    recipes.forEach(renderRecipe);\n};\n\n//# sourceURL=webpack:///./src/js/views/searchView.js?");
 
 /***/ }),
 
