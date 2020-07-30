@@ -100,6 +100,7 @@ elements.shopping.addEventListener('click', e => {
     }
 });
 
+
 elements.recipe.addEventListener('click', e => {
     if(e.target.matches('.btn-decrease,.btn-decrease *')){
         if (state.recipe.servings > 1) {
