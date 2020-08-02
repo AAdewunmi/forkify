@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 1. Clone the repo
 
 ```
-git clone https://github.com/AAdewunmi/Budgety_App.git
+git clone https://github.com/AAdewunmi/forkify.git
 ```
 
 2. Open Project Folder
@@ -26,7 +26,7 @@ Enjoy :)
 
 ### App UI (Demo)
 
-![Image description](screenshot.png)
+![Image description](Forkify_Screenshot.png)
 
 ---
 
