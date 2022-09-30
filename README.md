@@ -30,4 +30,4 @@ Enjoy :)
 
 ---
 
-Source code forked from Jonas Schmedtmann https://github.com/jonasschmedtmann/complete-javascript-course/tree/master/9-forkify
+Source code forked from Jonas Schmedtmann https://github.com/jonasschmedtmann/complete-javascript-course/
