@@ -22,7 +22,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "babel-polyfill": "^6.26.0",
     "fractional": "^1.0.0",
     "uniqid": "^5.2.0"
